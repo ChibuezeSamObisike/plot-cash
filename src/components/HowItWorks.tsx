@@ -1,9 +1,14 @@
+"use client";
+
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+
 const steps = [
   {
     step: 1,
     title: "Buy land from a partner",
     description:
-      "Purchase your plot through any real estate platform we’ve onboarded. Your purchase is recorded and verifiable.",
+      "Purchase your plot through any real estate platform we've onboarded. Your purchase is recorded and verifiable.",
   },
   {
     step: 2,
@@ -20,34 +25,55 @@ const steps = [
 ];
 
 export function HowItWorks() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
   return (
     <section
       id="how-it-works"
-      className="border-b border-[var(--border)] bg-gradient-to-b from-[var(--background)] to-[var(--primary-muted)]/30 px-4 py-16 sm:py-24"
+      ref={ref}
+      className="border-b border-border bg-gradient-to-b from-background to-primary-muted/30 px-4 py-16 sm:py-24"
     >
       <div className="mx-auto max-w-4xl">
-        <h2 className="text-center text-3xl font-bold tracking-tight text-[var(--foreground)] sm:text-4xl">
+        <motion.h2
+          className="text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        >
           How it works
-        </h2>
-        <p className="mx-auto mt-4 max-w-xl text-center text-[var(--muted)]">
+        </motion.h2>
+        <motion.p
+          className="mx-auto mt-4 max-w-xl text-center text-muted"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+        >
           Three steps from land owner to loan.
-        </p>
+        </motion.p>
         <div className="mt-14 space-y-10">
-          {steps.map((item, index) => (
-            <div
+          {steps.map((item, i) => (
+            <motion.div
               key={item.step}
-              className="flex gap-6 rounded-2xl border border-[var(--border)] bg-white p-6 shadow-sm sm:p-8"
+              className="flex gap-6 rounded-2xl border border-border bg-white p-6 shadow-sm sm:p-8"
+              initial={{ opacity: 0, x: -20 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{
+                duration: 0.5,
+                delay: 0.1 + i * 0.12,
+                ease: [0.22, 1, 0.36, 1],
+              }}
             >
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--primary)] text-lg font-bold text-white">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-lg font-bold text-white">
                 {item.step}
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-[var(--foreground)]">
+                <h3 className="text-lg font-semibold text-foreground">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-[var(--muted)]">{item.description}</p>
+                <p className="mt-2 text-muted">{item.description}</p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

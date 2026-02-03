@@ -1,3 +1,8 @@
+"use client";
+
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+
 const features = [
   {
     title: "Any onboarded platform",
@@ -20,32 +25,53 @@ const features = [
 ];
 
 export function Features() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
   return (
     <section
       id="features"
-      className="border-b border-[var(--border)] bg-[var(--background)] px-4 py-16 sm:py-24"
+      ref={ref}
+      className="border-b border-border bg-background px-4 py-16 sm:py-24"
     >
       <div className="mx-auto max-w-6xl">
-        <h2 className="text-center text-3xl font-bold tracking-tight text-[var(--foreground)] sm:text-4xl">
+        <motion.h2
+          className="text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        >
           Built for property owners
-        </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-center text-[var(--muted)]">
+        </motion.h2>
+        <motion.p
+          className="mx-auto mt-4 max-w-2xl text-center text-muted"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+        >
           One dashboard. Verified land. Straightforward loans.
-        </p>
+        </motion.p>
         <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature) => (
-            <div
+          {features.map((feature, i) => (
+            <motion.div
               key={feature.title}
-              className="rounded-2xl border border-[var(--border)] bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+              className="rounded-2xl border border-border bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+              initial={{ opacity: 0, y: 24 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{
+                duration: 0.5,
+                delay: 0.1 + i * 0.08,
+                ease: [0.22, 1, 0.36, 1],
+              }}
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--primary-muted)] text-2xl">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-muted text-2xl">
                 {feature.icon}
               </div>
-              <h3 className="mt-4 text-lg font-semibold text-[var(--foreground)]">
+              <h3 className="mt-4 text-lg font-semibold text-foreground">
                 {feature.title}
               </h3>
-              <p className="mt-2 text-[var(--muted)]">{feature.description}</p>
-            </div>
+              <p className="mt-2 text-muted">{feature.description}</p>
+            </motion.div>
           ))}
         </div>
       </div>

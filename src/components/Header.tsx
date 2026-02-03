@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { href: "/#how-it-works", label: "How it works" },
@@ -80,56 +81,75 @@ export function Header() {
         </button>
       </div>
 
-      {/* Mobile: slide-in panel + backdrop */}
-      <div
-        className="fixed inset-0 z-40 lg:hidden"
-        aria-hidden={!mobileOpen}
-        style={{ pointerEvents: mobileOpen ? "auto" : "none" }}
-      >
-        <button
-          type="button"
-          onClick={closeMobile}
-          className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${
-            mobileOpen ? "opacity-100" : "opacity-0"
-          }`}
-          aria-label="Close menu"
-        />
-        <aside
-          className={`absolute right-0 top-0 flex h-full w-full max-w-sm flex-col gap-8 border-l border-border bg-white p-6 shadow-xl transition-transform duration-300 ease-out ${
-            mobileOpen ? "translate-x-0" : "translate-x-full"
-          }`}
-        >
-          <div className="flex justify-end">
-            <button
+      {/* Mobile: slide-in panel + backdrop (Framer Motion) */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <div
+            className="fixed inset-0 z-40 lg:hidden"
+            aria-hidden={false}
+          >
+            <motion.button
               type="button"
               onClick={closeMobile}
-              className="flex h-10 w-10 items-center justify-center rounded-lg text-foreground hover:bg-primary-muted"
+              className="absolute inset-0 bg-black/40"
               aria-label="Close menu"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+            />
+            <motion.aside
+              className="absolute right-0 top-0 flex h-full w-full max-w-sm flex-col gap-8 border-l border-border bg-white p-6 shadow-xl"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "tween", duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             >
-              <MenuIcon open />
-            </button>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={closeMobile}
+                  className="flex h-10 w-10 items-center justify-center rounded-lg text-foreground hover:bg-primary-muted"
+                  aria-label="Close menu"
+                >
+                  <MenuIcon open />
+                </button>
+              </div>
+              <nav className="flex flex-col gap-2">
+                {navLinks.map((link, i) => (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, x: 16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.05 + i * 0.04, duration: 0.25 }}
+                  >
+                    <Link
+                      href={link.href}
+                      onClick={closeMobile}
+                      className="block rounded-lg px-4 py-3 text-base font-medium text-foreground hover:bg-primary-muted hover:text-primary"
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
+                ))}
+                <motion.div
+                  initial={{ opacity: 0, x: 16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.17, duration: 0.25 }}
+                >
+                  <Link
+                    href="/dashboard"
+                    onClick={closeMobile}
+                    className="mt-4 block rounded-lg bg-primary px-4 py-3 text-center text-base font-medium text-white hover:bg-primary-hover"
+                  >
+                    Dashboard
+                  </Link>
+                </motion.div>
+              </nav>
+            </motion.aside>
           </div>
-          <nav className="flex flex-col gap-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={closeMobile}
-                className="rounded-lg px-4 py-3 text-base font-medium text-foreground hover:bg-primary-muted hover:text-primary"
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link
-              href="/dashboard"
-              onClick={closeMobile}
-              className="mt-4 rounded-lg bg-primary px-4 py-3 text-center text-base font-medium text-white hover:bg-primary-hover"
-            >
-              Dashboard
-            </Link>
-          </nav>
-        </aside>
-      </div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
