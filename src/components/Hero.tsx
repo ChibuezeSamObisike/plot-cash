@@ -6,7 +6,7 @@ const HERO_IMAGE =
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-primary-muted/50 to-background">
+    <section className="relative overflow-hidden border-b border-border">
       <div className="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,var(--primary-light)/15%,transparent)]" />
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 py-16 sm:py-20 lg:grid-cols-2 lg:items-center lg:gap-12 lg:py-28">
         <div className="order-2 lg:order-1">
@@ -35,7 +35,7 @@ export function Hero() {
             </Link>
           </div>
         </div>
-        <div className="relative order-1 aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-primary-muted shadow-xl lg:order-2 lg:aspect-auto lg:h-[420px]">
+        <div className="relative order-1 aspect-[4/3] overflow-hidden rounded-2xl lg:order-2 lg:aspect-auto lg:h-[420px]">
           <Image
             src={HERO_IMAGE}
             alt="Aerial view of land and property — use your plot as collateral with Plot Cash"
