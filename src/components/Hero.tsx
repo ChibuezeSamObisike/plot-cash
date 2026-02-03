@@ -1,0 +1,51 @@
+import Image from "next/image";
+import Link from "next/link";
+
+const HERO_IMAGE =
+  "https://images.unsplash.com/photo-1500387467466-730600994c44?w=1200&q=80";
+
+export function Hero() {
+  return (
+    <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-primary-muted/50 to-background">
+      <div className="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,var(--primary-light)/15%,transparent)]" />
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 py-16 sm:py-20 lg:grid-cols-2 lg:items-center lg:gap-12 lg:py-28">
+        <div className="order-2 lg:order-1">
+          <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+            Your land.
+            <br />
+            <span className="text-primary">Your collateral.</span>
+          </h1>
+          <p className="mx-auto mt-6 max-w-xl text-lg text-muted lg:mx-0 sm:text-xl">
+            Bought land from any onboarded real estate platform? Use it as
+            collateral for a loan. Plot Cash connects your verified property to
+            secure, transparent financing.
+          </p>
+          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+            <Link
+              href="/dashboard"
+              className="rounded-xl bg-primary px-8 py-4 text-center font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary-hover hover:shadow-primary/30"
+            >
+              Go to Dashboard
+            </Link>
+            <Link
+              href="/#how-it-works"
+              className="rounded-xl border-2 border-primary bg-transparent px-8 py-4 text-center font-semibold text-primary transition-colors hover:bg-primary-muted"
+            >
+              How it works
+            </Link>
+          </div>
+        </div>
+        <div className="relative order-1 aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-primary-muted shadow-xl lg:order-2 lg:aspect-auto lg:h-[420px]">
+          <Image
+            src={HERO_IMAGE}
+            alt="Aerial view of land and property — use your plot as collateral with Plot Cash"
+            fill
+            className="object-cover"
+            priority
+            sizes="(max-width: 1024px) 100vw, 50vw"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
